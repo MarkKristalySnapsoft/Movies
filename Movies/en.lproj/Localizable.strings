@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Movies
+
+  Created by Márk Kristály on 2022. 04. 22..
+  
+*/
+
+"alert.close" = "Close";
+"movie.list.error.title" = "Error!";
+"movie.list.error.general.description" = "An error occured.";

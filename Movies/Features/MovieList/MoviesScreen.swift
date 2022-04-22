@@ -11,6 +11,8 @@ import SwiftUI
 protocol MoviesScreenViewModelProtocol: ObservableObject {
     var isLoading: Bool { get set }
     var movies: [MovieVM] { get set }
+    var error: Error? { get set }
+    var hasError: Bool { get set }
     
     func loadMore()
 }
@@ -35,6 +37,11 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
             .navigationTitle("Movies")
         }
         .navigationViewStyle(.stack)
+        .alert("movie.list.error.title", isPresented: $viewModel.hasError, actions: {
+            Button("alert.close") {}
+        }, message: {
+            Text(viewModel.error?.localizedDescription ?? "movie.list.error.general.description")
+        })
     }
 
     func destinationView(using movie: MovieVM) -> some View {

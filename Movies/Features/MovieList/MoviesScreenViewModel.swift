@@ -11,6 +11,8 @@ import Foundation
 class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
     @Published var movies: [MovieVM] = []
     @Published var isLoading: Bool = false
+    @Published var error: Error? = nil
+    @Published var hasError: Bool = false
     
     private let movieStore: MoviesStoreProtocol = MoviesStore.shared
     private let moviesActions: MoviesActions = MoviesActions.shared
@@ -44,6 +46,12 @@ class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
                 self.isLoading = false
             }
             .store(in: &subscriptions)
+        
+        movieStore.latestError.sink { [weak self] error in
+            self?.error = error
+            self?.hasError = true
+        }
+        .store(in: &subscriptions)
     }
     
     private func getGenresByIds(_ genreIds: [Int], genres: [Genre]) -> String {

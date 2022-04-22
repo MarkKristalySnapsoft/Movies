@@ -8,6 +8,9 @@
 import Foundation
 
 class MockViewModel: MoviesScreenViewModelProtocol {
+    var error: Error? = nil
+    var hasError: Bool = true
+    
     var isLoading: Bool = false
     var movies: [MovieVM] = previewMovies
     
