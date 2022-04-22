@@ -20,3 +20,6 @@ struct MovieVM: Identifiable {
     let image: Image
     let popularity: Float
 }
+
+extension MovieVM.Image: Hashable {}
+extension MovieVM: Hashable {}

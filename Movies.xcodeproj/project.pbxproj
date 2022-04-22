@@ -20,6 +20,7 @@
 		6E778EA428107A46001FAE1A /* GenreResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E778EA328107A46001FAE1A /* GenreResponse.swift */; };
 		6E778EA628107A66001FAE1A /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E778EA528107A66001FAE1A /* Genre.swift */; };
 		6E778EA828107B9D001FAE1A /* MoviesActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E778EA728107B9D001FAE1A /* MoviesActions.swift */; };
+		6EE020C22812C0880028A006 /* SwiftUIInfiniteList in Frameworks */ = {isa = PBXBuildFile; productRef = 6EE020C12812C0880028A006 /* SwiftUIInfiniteList */; };
 		9F477C0C27BA5CF800DAE295 /* MoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F477C0B27BA5CF800DAE295 /* MoviesApp.swift */; };
 		9F477C0E27BA5CF800DAE295 /* MoviesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F477C0D27BA5CF800DAE295 /* MoviesScreen.swift */; };
 		9F477C1027BA5CF900DAE295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F477C0F27BA5CF900DAE295 /* Assets.xcassets */; };
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE020C22812C0880028A006 /* SwiftUIInfiniteList in Frameworks */,
 				6E778E9328106678001FAE1A /* Moya in Frameworks */,
 				6E778E9128106678001FAE1A /* CombineMoya in Frameworks */,
 			);
@@ -206,6 +208,7 @@
 			packageProductDependencies = (
 				6E778E9028106678001FAE1A /* CombineMoya */,
 				6E778E9228106678001FAE1A /* Moya */,
+				6EE020C12812C0880028A006 /* SwiftUIInfiniteList */,
 			);
 			productName = Movies;
 			productReference = 9F477C0827BA5CF800DAE295 /* Movies.app */;
@@ -237,6 +240,7 @@
 			mainGroup = 9F477BFF27BA5CF800DAE295;
 			packageReferences = (
 				6E778E8F28106678001FAE1A /* XCRemoteSwiftPackageReference "Moya" */,
+				6EE020C02812C0880028A006 /* XCRemoteSwiftPackageReference "swiftui-infinite-list" */,
 			);
 			productRefGroup = 9F477C0927BA5CF800DAE295 /* Products */;
 			projectDirPath = "";
@@ -496,6 +500,14 @@
 				minimumVersion = 15.0.0;
 			};
 		};
+		6EE020C02812C0880028A006 /* XCRemoteSwiftPackageReference "swiftui-infinite-list" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-infinite-list";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -508,6 +520,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E778E8F28106678001FAE1A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		6EE020C12812C0880028A006 /* SwiftUIInfiniteList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EE020C02812C0880028A006 /* XCRemoteSwiftPackageReference "swiftui-infinite-list" */;
+			productName = SwiftUIInfiniteList;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

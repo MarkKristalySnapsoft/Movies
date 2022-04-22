@@ -20,13 +20,14 @@ class MoviesActions {
         self.movieService = movieService
     }
     
-    func getMovieInfos() {
-        movieService.getTrendingMovies().sink(
+    func getMovieInfos(for page: Int) {
+        movieService.getTrendingMovies(page: page).sink(
             receiveCompletion: { [weak self] completion in
                 guard case let .failure(error) = completion else { return }
                 self?.movieStore.setError(error)
             }, receiveValue: { [weak self] movies in
-                self?.movieStore.setMovies(movies.results)
+                self?.movieStore.appendMovies(movies.results)
+                self?.movieStore.setMaxPage(movies.totalPages)
             })
         .store(in: &subscriptions)
         

@@ -35,6 +35,24 @@
         "revision" : "b4307ba0b6425c0ba4178e138799946c3da594f8",
         "version" : "6.5.0"
       }
+    },
+    {
+      "identity" : "swiftui-infinite-list",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/globulus/swiftui-infinite-list",
+      "state" : {
+        "revision" : "367bacfcd36576e19b3737112d12feb181f46f8c",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftui-pull-to-refresh",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/globulus/swiftui-pull-to-refresh",
+      "state" : {
+        "revision" : "5a1e0f8f239381df7e75a63e6d01e42633d0903f",
+        "version" : "1.1.5"
+      }
     }
   ],
   "version" : 2

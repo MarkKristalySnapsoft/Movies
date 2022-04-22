@@ -12,15 +12,23 @@ protocol MoviesStoreProtocol: AnyObject {
     var genresPublisher: AnyPublisher<[Genre], Never> { get }
     var moviesPublisher: AnyPublisher<[Movie], Never> { get }
     var imageConfigurationPublisher: AnyPublisher<ImageConfiguration, Never> { get }
+    var maxPagePublisher: AnyPublisher<Int, Never> { get }
     var latestError: AnyPublisher<Error, Never> { get }
     
     func setGenres(_ genres: [Genre])
-    func setMovies(_ movies: [Movie])
+    func appendMovies(_ movies: [Movie])
     func setImageConfiguration(_ imageConfiguration: ImageConfiguration)
+    func setMaxPage(_ maxPage: Int)
     func setError(_ error: Error?)
 }
 
 class MoviesStore: MoviesStoreProtocol {
+    var maxPagePublisher: AnyPublisher<Int, Never> {
+        maxPageSubject
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+    }
+    
     var genresPublisher: AnyPublisher<[Genre], Never> {
         genresSubject
             .removeDuplicates()
@@ -48,6 +56,7 @@ class MoviesStore: MoviesStoreProtocol {
     private let genresSubject = CurrentValueSubject<[Genre], Never>([])
     private let moviesSubject = CurrentValueSubject<[Movie], Never>([])
     private let imageConfigurationSubject = CurrentValueSubject<ImageConfiguration?, Never>(nil)
+    private let maxPageSubject = CurrentValueSubject<Int, Never>(1)
     private let errorSubject = CurrentValueSubject<Error?, Never>(nil)
     
     static let shared: MoviesStoreProtocol = MoviesStore()
@@ -58,8 +67,10 @@ class MoviesStore: MoviesStoreProtocol {
         genresSubject.send(genres)
     }
     
-    func setMovies(_ movies: [Movie]) {
-        moviesSubject.send(movies)
+    func appendMovies(_ movies: [Movie]) {
+        var updatedMovies = moviesSubject.value
+        updatedMovies.append(contentsOf: movies)
+        moviesSubject.send(updatedMovies)
     }
     
     func setImageConfiguration(_ imageConfiguration: ImageConfiguration) {
@@ -68,5 +79,9 @@ class MoviesStore: MoviesStoreProtocol {
     
     func setError(_ error: Error?) {
         errorSubject.send(error)
+    }
+    
+    func setMaxPage(_ maxPage: Int) {
+        maxPageSubject.send(maxPage)
     }
 }

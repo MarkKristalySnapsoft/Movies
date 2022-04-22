@@ -8,7 +8,11 @@
 import Foundation
 
 class MockViewModel: MoviesScreenViewModelProtocol {
+    var isLoading: Bool = false
     var movies: [MovieVM] = previewMovies
+    
+    func loadMore() {
+    }
 }
 
 class MockMovieDetailsViewModel: MovieDetailsScreenViewModelProtocol {

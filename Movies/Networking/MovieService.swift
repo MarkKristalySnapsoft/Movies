@@ -10,7 +10,7 @@ import CombineMoya
 import Moya
 
 protocol MovieServiceProtocol {
-    func getTrendingMovies() -> AnyPublisher<MovieListResponse, Error>
+    func getTrendingMovies(page: Int) -> AnyPublisher<MovieListResponse, Error>
     func getGenres() -> AnyPublisher<GenreResponse, Error>
     func getImageConfigurations() -> AnyPublisher<ImageConfiguration, Error>
 }
@@ -18,8 +18,8 @@ protocol MovieServiceProtocol {
 class MovieService: MovieServiceProtocol {
     private let provider = MoyaProvider<Movies>()
     
-    func getTrendingMovies() -> AnyPublisher<MovieListResponse, Error> {
-        provider.requestPublisher(.ratedMovies)
+    func getTrendingMovies(page: Int) -> AnyPublisher<MovieListResponse, Error> {
+        provider.requestPublisher(.ratedMovies(page))
             .tryMap { response in
                 try response.map(MovieListResponse.self)
             }

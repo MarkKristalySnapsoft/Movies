@@ -10,7 +10,7 @@ import Moya
 
 enum Movies {
     case imageConfiguration
-    case ratedMovies
+    case ratedMovies(Int)
     case genres
 }
 
@@ -35,7 +35,14 @@ extension Movies: TargetType {
     }
     
     var task: Task {
-        .requestParameters(parameters: ["api_key": APIkey], encoding: URLEncoding.queryString)
+        var parameters: [String: Any] = ["api_key": APIkey]
+        switch self {
+        case let .ratedMovies(page):
+            parameters.updateValue(page, forKey: "page")
+        default:
+            break
+        }
+        return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
     }
     
     var headers: [String : String]? {

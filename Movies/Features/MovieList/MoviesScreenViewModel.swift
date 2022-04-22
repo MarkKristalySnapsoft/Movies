@@ -10,26 +10,38 @@ import Foundation
 
 class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
     @Published var movies: [MovieVM] = []
+    @Published var isLoading: Bool = false
     
     private let movieStore: MoviesStoreProtocol = MoviesStore.shared
     private let moviesActions: MoviesActions = MoviesActions.shared
     
+    private var page = 0
+    private var maxPage = 1
     private var subscriptions = Set<AnyCancellable>()
     
     init() {
         setupBindings()
-        moviesActions.getMovieInfos()
+        loadMore()
+    }
+    
+    func loadMore() {
+        guard page < maxPage, !isLoading else { return }
+        isLoading = true
+        page += 1
+        moviesActions.getMovieInfos(for: page)
     }
     
     private func setupBindings() {
-        Publishers.CombineLatest3(movieStore.moviesPublisher, movieStore.genresPublisher, movieStore.imageConfigurationPublisher)
-            .sink { [weak self] movies, genres, imageConfiguration in
+        Publishers.CombineLatest4(movieStore.moviesPublisher, movieStore.genresPublisher, movieStore.imageConfigurationPublisher, movieStore.maxPagePublisher)
+            .sink { [weak self] movies, genres, imageConfiguration, maxPage in
                 guard let self = self else { return }
                 
                 self.movies = movies.map { movie in
                     let genres = self.getGenresByIds(movie.genreIds, genres: genres)
                     return MovieVM(id: "\(movie.id)", title: movie.title, genres: genres, overView: movie.overview, image: self.getMovieVMImage(configuration: imageConfiguration, movie: movie), popularity: movie.voteAverage)
                 }
+                self.maxPage = maxPage
+                self.isLoading = false
             }
             .store(in: &subscriptions)
     }

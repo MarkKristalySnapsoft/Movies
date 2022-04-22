@@ -5,10 +5,14 @@
 //  Created by Foundation on 2022. 02. 14..
 //
 
+import SwiftUIInfiniteList
 import SwiftUI
 
 protocol MoviesScreenViewModelProtocol: ObservableObject {
-    var movies: [MovieVM] { get }
+    var isLoading: Bool { get set }
+    var movies: [MovieVM] { get set }
+    
+    func loadMore()
 }
 
 struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
@@ -16,14 +20,18 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.movies) { movie in
-                NavigationLink(destination: destinationView(using: movie)) {
-                    MovieListItem(movie: movie)
-                        .padding(.trailing, 8)
+            InfiniteList(
+                data: $viewModel.movies,
+                isLoading: $viewModel.isLoading,
+                loadingView: ProgressView(),
+                loadMore: viewModel.loadMore) { item in
+                    NavigationLink(destination: destinationView(using: item)) {
+                        MovieListItem(movie: item)
+                            .padding(.trailing, 8)
+                    }
+                    .padding(.trailing, 16)
+                    .listRowInsets(EdgeInsets())
                 }
-                .padding(.trailing, 16)
-                .listRowInsets(EdgeInsets())
-            }
             .navigationTitle("Movies")
         }
         .navigationViewStyle(.stack)
