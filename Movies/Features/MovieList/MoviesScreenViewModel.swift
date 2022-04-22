@@ -28,7 +28,7 @@ class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
                 
                 self.movies = movies.map { movie in
                     let genres = self.getGenresByIds(movie.genreIds, genres: genres)
-                    return MovieVM(id: "\(movie.id)", title: movie.title, genres: genres, overView: movie.overview, image: self.getMovieVMImage(configuration: imageConfiguration, movie: movie), popularity: movie.popularity)
+                    return MovieVM(id: "\(movie.id)", title: movie.title, genres: genres, overView: movie.overview, image: self.getMovieVMImage(configuration: imageConfiguration, movie: movie), popularity: movie.voteAverage)
                 }
             }
             .store(in: &subscriptions)

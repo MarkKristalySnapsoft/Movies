@@ -12,7 +12,7 @@ struct Movie {
     let title: String
     let genreIds: [Int]
     let overview: String
-    let popularity: Float
+    let voteAverage: Float
     let posterPath: String?
 }
 
@@ -22,7 +22,7 @@ extension Movie: Decodable {
         case title
         case genreIds = "genre_ids"
         case overview
-        case popularity
+        case voteAverage = "vote_average"
         case posterPath = "poster_path"
     }
 }
