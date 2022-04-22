@@ -14,14 +14,17 @@ class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
     @Published var error: Error? = nil
     @Published var hasError: Bool = false
     
-    private let movieStore: MoviesStoreProtocol = MoviesStore.shared
-    private let moviesActions: MoviesActions = MoviesActions.shared
+    private let movieStore: MoviesStoreProtocol
+    private let moviesActions: MoviesActions
     
     private var page = 0
     private var maxPage = 1
     private var subscriptions = Set<AnyCancellable>()
     
-    init() {
+    init(movieStore: MoviesStoreProtocol, moviesActions: MoviesActions) {
+        self.movieStore = movieStore
+        self.moviesActions = moviesActions
+        
         setupBindings()
         loadMore()
     }

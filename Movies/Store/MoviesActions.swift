@@ -15,7 +15,7 @@ class MoviesActions {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    private init(movieStore: MoviesStoreProtocol, movieService: MovieServiceProtocol) {
+    init(movieStore: MoviesStoreProtocol, movieService: MovieServiceProtocol) {
         self.movieStore = movieStore
         self.movieService = movieService
     }

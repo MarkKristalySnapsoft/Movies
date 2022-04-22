@@ -13,7 +13,7 @@ struct MoviesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MoviesScreen(viewModel: MoviesScreenViewModel())
+            MoviesScreen(viewModel: MoviesScreenViewModel(movieStore: MoviesStore.shared, moviesActions: MoviesActions.shared))
         }
     }
 }

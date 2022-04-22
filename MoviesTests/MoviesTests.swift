@@ -5,31 +5,33 @@
 //  Created by Márk Kristály on 2022. 04. 22..
 //
 
+import Combine
 import XCTest
+@testable import Movies
 
 class MoviesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var movieService: MovieServiceProtocol = MovieServiceMock()
+    var moviesScreenViewModel: MoviesScreenViewModel!
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
+    func testMovieScreenViewModelMovies() throws {
+        let expectation = XCTestExpectation(description: "isLoading should be true after loadMore()")
+        
+        let movieStore = MoviesStore()
+        let moviesActions = MoviesActions(movieStore: movieStore, movieService: movieService)
+        moviesScreenViewModel = MoviesScreenViewModel(movieStore: movieStore, moviesActions: moviesActions)
+        
+        moviesScreenViewModel.$isLoading.sink { isLoading in
+            if isLoading {
+                expectation.fulfill()
+            }
+        }.store(in: &subscriptions)
+        
+        XCTAssert(moviesScreenViewModel.movies.count == 3)
+        
+        moviesScreenViewModel.loadMore()
+        wait(for: [expectation], timeout: 1)
+        XCTAssert(moviesScreenViewModel.movies.count == 6)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

@@ -5,31 +5,39 @@
 //  Created by Márk Kristály on 2022. 04. 22..
 //
 
+import Combine
 import XCTest
+@testable import Movies
 
-class MovieServiceMock: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+class MovieServiceMock: MovieServiceProtocol {
+    func getTrendingMovies(page: Int) -> AnyPublisher<MovieListResponse, Error> {
+        Just(MovieListResponse(
+            page: page,
+            results: [
+                Movie(id: 1, title: "Test title 1", genreIds: [1, 2], overview: "Test overview 1", voteAverage: 8.9, posterPath: "testpath1"),
+                Movie(id: 2, title: "Test title 2", genreIds: [3, 2], overview: "Test overview 2", voteAverage: 8.1, posterPath: "testpath2"),
+                Movie(id: 3, title: "Test title 3", genreIds: [1], overview: "Test overview 3", voteAverage: 1.9, posterPath: "testpath3"),
+            ],
+            totalPages: 3,
+            totalResults: 30)
+        )
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func getGenres() -> AnyPublisher<GenreResponse, Error> {
+        Just(GenreResponse(genres: [
+            Genre(id: 1, name: "Test genre 1"),
+            Genre(id: 2, name: "Test genre 2"),
+            Genre(id: 3, name: "Test genre 3"),
+        ]))
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func getImageConfigurations() -> AnyPublisher<ImageConfiguration, Error> {
+        Just(ImageConfiguration(secureBaseUrl: "https://testsecurebaseurl.com", posterSizes: [.w92, .w342]))
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

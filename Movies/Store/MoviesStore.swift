@@ -61,7 +61,7 @@ class MoviesStore: MoviesStoreProtocol {
     
     static let shared: MoviesStoreProtocol = MoviesStore()
     
-    private init() {}
+    init() {}
     
     func setGenres(_ genres: [Genre]) {
         genresSubject.send(genres)
